@@ -46,3 +46,94 @@ export async function userLogin(username, password, setToken){
     })
     .catch(console.error)
 }
+
+export async function posts(){
+    try{
+        const { data } = await axios.get(`${APIURL}/api/${cohort}/posts`);
+        return data;
+    } catch (error) {
+        throw error;
+    }
+  }
+  
+  export async function makePost(token, title, description, price, location){
+    fetch(`${APIURL}/api/${cohort}/posts`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            post: {
+                title: title,
+                description: description,
+                price: price,
+                location: location,
+            },
+        }),
+    })
+    .then((response) => response.json())
+    .then((result) => {
+        console.log(result);
+    })
+    .catch(console.error);
+  }
+  
+  export async function showPosts(token){
+    try{
+        const data = await axios.get(`${APIURL}/api/${cohort}/users/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return data.data.data.posts;
+    } catch (error) {
+        console.error(error);
+    }
+  }
+  
+  export async function editPosts(
+    token,
+    postId,
+    title,
+    description,
+    price,
+    location
+  ){
+    fetch(`${APIURL}/api/${cohort}/posts/${postId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            post: {
+                title: title,
+                description: description,
+                price: price,
+                location: location,
+            },
+        }),
+    })
+    .then((response) => response.json())
+    .then((result) => {
+        console.log(result);
+    })
+    .catch(console.error);
+  }
+  
+  
+  export async function deletePost(token, postId){
+    try{
+        await axios.delete(`${APIURL}/api/${cohort}/posts/${postId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    } catch (error) {
+        console.error(error);
+    }
+  }
+
