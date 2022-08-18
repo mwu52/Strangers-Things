@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Login";
 import RegisterUser from "./Register";
 import Landing from "./Landing";
+import { posts } from "../api";
 
 const App = () => {
     return (
@@ -10,7 +11,9 @@ const App = () => {
         <div>
         </div>
         <Routes>
-            <Route path="/" element={<Landing/>} />
+            <Route path="/" element={<Landing
+            posts={posts}
+            />} />
             <Route path="/register" element={<RegisterUser/>} />
             <Route path="/login" element={<Login/>} />
         </Routes>
