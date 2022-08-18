@@ -137,3 +137,36 @@ export async function posts(){
     }
   }
 
+export async function postMessages(token, postId, content){
+    await fetch(`${APIURL}/api/${cohort}/posts/${postId}/messages`, {
+        method: "POST", 
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            message: {
+                content: content,
+            },
+        }),
+    })
+    .then((response) => response.json())
+    .then((result) => {
+        console.log(result);
+    })
+    .catch(console.error);
+}
+
+export async function loadMessages(token){
+    try {
+        const data = await axios.get(`${APIURL}/api/${cohort}/users/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return data.data.data;
+    } catch (error) {
+        console.error(error)
+    }
+}
